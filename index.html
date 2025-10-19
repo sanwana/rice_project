@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rice Classification</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .main {
+      flex: 1;
+      text-align: center;
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+
+    .main h2 {
+      font-size: 2.5rem;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+    }
+
+    .main p {
+      color: #666;
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+    }
+
+    .upload-box {
+      background: #ffffff;
+      width: 550px;
+      margin: 30px auto;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .file-input-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    .upload-label {
+      background-color: #1a1a1a;
+      color: #daa520;
+      padding: 14px 30px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+      display: inline-block;
+      font-size: 1rem;
+    }
+
+    .upload-label:hover {
+      background-color: #daa520;
+      color: #1a1a1a;
+      transform: scale(1.05);
+    }
+
+    .btn {
+      background-color: #daa520;
+      color: #1a1a1a;
+      padding: 14px 40px;
+      border: none;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #b58b1c;
+      transform: scale(1.05);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    #preview {
+      max-width: 350px;
+      margin-top: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    #result {
+      margin-top: 30px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      min-height: 30px;
+    }
+
+    .result-success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 5px solid #4caf50;
+    }
+
+    .result-error {
+      background-color: #ffebee;
+      color: #c62828;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 5px solid #f44336;
+    }
+
+    .file-name {
+      margin-top: 10px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .guide {
+      margin-top: 30px;
+      text-align: left;
+      background: #f5f5f5;
+      padding: 20px;
+      border-left: 5px solid #daa520;
+      border-radius: 5px;
+      color: #333;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌾 Rice Classification</h1>
+    <nav>
+      <a href="index.html" class="active">หน้าแรก</a>
+      <a href="about.html">เกี่ยวกับ</a>
+      <a href="howto.html">วิธีใช้งาน</a>
+    </nav>
+  </header>
+
+  <div class="main">
+    <h2>🎯 จำแนกสายพันธุ์ข้าวด้วย AI</h2>
+    <p>อัปโหลดภาพเมล็ดข้าวเพื่อให้ระบบวิเคราะห์และจำแนกสายพันธุ์ได้อย่างแม่นยำ</p>
+
+    <div class="upload-box">
+      <div class="file-input-wrapper">
+        <label for="fileInput" class="upload-label">📸 เลือกภาพ</label>
+        <input type="file" id="fileInput" accept="image/*" />
+      </div>
+      <div class="file-name" id="fileName"></div>
+      
+      <img id="preview" src="" alt="preview" style="display: none;" />
+      
+      <button class="btn" id="uploadBtn">🤖 วิเคราะห์</button>
+      
+      <div id="result"></div>
+      
+      <div class="guide">
+        <strong>💡 สำคัญ:</strong><br>
+        ✓ ภาพต้องชัดเจน ไม่เบลอ<br>
+        ✓ เมล็ดข้าวเด่นชัดในภาพ<br>
+        ✓ รูปแบบ JPG, JPEG, PNG<br>
+        ✓ ขนาดไม่เกิน 10MB
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Wadear AI Research — ระบบจำแนกสายพันธุ์ข้าวเพื่อการเกษตรอัจฉริยะ
+  </footer>
+
+  <script>
+    const uploadBtn = document.getElementById("uploadBtn");
+    const fileInput = document.getElementById("fileInput");
+    const preview = document.getElementById("preview");
+    const result = document.getElementById("result");
+    const fileName = document.getElementById("fileName");
+
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files[0];
+      if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = "block";
+        fileName.textContent = `📁 ${file.name}`;
+      }
+    });
+
+    uploadBtn.addEventListener("click", async () => {
+      const file = fileInput.files[0];
+      if (!file) {
+        result.innerHTML = '<div class="result-error">❌ กรุณาเลือกไฟล์ภาพก่อน</div>';
+        return;
+      }
+
+      result.innerHTML = '<div style="color: #daa520; font-weight: bold;">⏳ กำลังวิเคราะห์...</div>';
+      uploadBtn.disabled = true;
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/predict", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await response.json();
+        if (data.predicted_class) {
+          const confidence = data.confidence ? (data.confidence * 100).toFixed(2) : "N/A";
+          result.innerHTML = `<div class="result-success">✅ <strong>ผลการวิเคราะห์:</strong><br>สายพันธุ์: <strong>${data.predicted_class}</strong><br>ความมั่นใจ: <strong>${confidence}%</strong></div>`;
+        } else {
+          result.innerHTML = `<div class="result-error">⚠️ ${data.error || "ไม่สามารถจำแนกได้"}</div>`;
+        }
+      } catch (err) {
+        result.innerHTML = '<div class="result-error">❌ เกิดข้อผิดพลาด ไม่สามารถเชื่อมต่อ API ได้</div>';
+        console.error(err);
+      } finally {
+        uploadBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

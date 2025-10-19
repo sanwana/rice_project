@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+scikit-learn
+joblib
+numpy
+Pillow
+python-multipart
+gunicorn
+
+# เพิ่ม 2 บรรทัดนี้
+tensorflow
