@@ -8,4 +8,6 @@ python-multipart
 gunicorn
 
 # เพิ่ม 2 บรรทัดนี้
+
 tensorflow
+requests
